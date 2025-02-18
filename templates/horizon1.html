@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% block title %}Horizon 3{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<h2>Horizon 1 Page</h2>
+<p>Welcome to Horizon 1 Strategic Map.</p>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stacked BSC Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .section-title {
+            margin: 2rem 0;
+            border-left: 5px solid;
+        }
+
+        .card {
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="container py-5">
+        <div class="my-5">
+            <div class="section-title border-success text-center align-item-center">
+                <h2>💰 Financial Perspective</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-success shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">F1</h5>
+                            <p>"Increase Revenue"</p>
+                            <!-- <li class="text-danger">Umi</li>
+                            <li>dr. Vika | Lily | Janto</li> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-success shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">F2</h5>
+                            <p>Optimize Cost</p>
+                            <!-- <li class="text-danger">Amalia</li>
+                            <li>Oki | Wandha</li> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-success shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">F3</h5>
+                            <p>Grow Market Share</p>
+                            <!-- <li class="text-danger">Meice</li>
+                            <li>Lubis | Nurul</li> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-5">
+            <div class="section-title border-warning">
+                <h2>👥 Customer Journey</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-warning shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">C1. Apotek/PBF/Clinics</h5>
+                            <p>"I want to maximize my business' potential"</p>
+                            <!-- <li class="text-danger">Umi</li>
+                            <li>dr. Vika | Lily | Janto</li> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-warning shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">C2. Strategic Principal</h5>
+                            <p>"I want to reach more customers as quickly as possible!"</p>
+                            <!-- <li class="text-danger">Amalia</li>
+                            <li>Oki | Wandha</li> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-warning shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">C3. Patients</h5>
+                            <p>"A high-quality and realiable product lets me shop without hesitation"</p>
+                            <!-- <li class="text-danger">Meice</li>
+                            <li>Lubis | Nurul</li> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-5">
+            <div class="section-title border-danger">
+                <h2>⚙️ Internal Processes</h2>
+            </div>
+            <div class="row g-4">
+                <!-- Growth Column -->
+                <div class="col-md-4">
+                    <div class="mb-4">
+                        <h3 class="text-center mb-3 fw-bold text-danger">Growth</h3>
+                        <div class="card border-danger shadow mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">G1. Enhance Collaborative Partnership with Doctors and Healthcare
+                                    Providers</h5>
+                                <li class="text-danger">Janto</li>
+                                <li>Lubis | Uciek</li>
+                            </div>
+                        </div>
+                        <div class="card border-danger shadow">
+                            <div class="card-body">
+                                <h5 class="card-title">G2. Implement An Efficient And Scalable Go-To-Market Strategy
+                                </h5>
+                                <li class="text-danger">Oki</li>
+                                <li>Wandha | Bella</li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-4">
+                        <h3 class="text-center mb-3 fw-bold text-danger">Innovation</h3>
+                        <div class="card border-danger shadow mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">I1. Establish A Fully Integrated Healthcare Ecosystem</h5>
+                                <li class="text-danger">Andre L.</li>
+                                <li>Jason | Huy | Umi | Sunarti | Amalia</li>
+                            </div>
+                        </div>
+                        <div class="card border-danger shadow">
+                            <div class="card-body">
+                                <h5 class="card-title">I2. Accelerate Diagnostic Precision with Advanced IOT Integration
+                                    And Lab Collaboration</h5>
+                                <p>Implement AI-driven analytics</p>
+                                <li class="text-danger">Hengky</li>
+                                <li>Handris | Dr. Vika | Lily |Evelyn</li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-4">
+                        <h3 class="text-center mb-3 fw-bold text-danger">Excellence</h3>
+                        <div class="card border-danger shadow mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">X1. Optimize Integrated Systems For Seamless Healthcare Delivery
+                                </h5>
+                                <li class="text-danger">Huy</li>
+                                <li>Jason | Martias | Novi</li>
+                            </div>
+                        </div>
+                        <div class="card border-danger shadow">
+                            <div class="card-body">
+                                <h5 class="card-title">X2. Implement Structured Workflows to Ensure Realibility And
+                                    Efficiency</h5>
+                                <li class="text-danger">Evelyn</li>
+                                <li>Sheren</li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-5">
+            <div class="section-title border-primary">
+                <h2>📚 Enablers</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-primary shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">E1. Build a highly complement & tech-savvy workplace</h5>
+                            <li class="text-danger">Meyta</li>
+                            <li>Luppi | Meice</li>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-primary shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">Foster a Data-Driven Culture for Decision Making</h5>
+                            <li class="text-danger">Huy</li>
+                            <li>Meyta | Nurul | Luppi</li>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-primary shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">E3. Generate Value through Innovative Technologycal
+                                Application/create Value through a Culture of Innovation</h5>
+                            <li class="text-danger">Martias</li>
+                            <li>Sheren</li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+{% endblock %}

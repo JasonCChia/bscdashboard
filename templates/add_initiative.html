@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Add Initiative{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h2>Add Initiative for Objective {{ objective_id }}</h2>
+  <form method="POST" action="{{ url_for('horizon3.add_initiative', objective_id=objective_id) }}">
+    <div class="mb-3">
+      <label for="initiative_name" class="form-label">Initiative Name</label>
+      <input type="text" class="form-control" id="initiative_name" name="initiative_name" required>
+    </div>
+    <div class="mb-3">
+      <label for="target" class="form-label">Target</label>
+      <input type="text" class="form-control" id="target" name="target">
+    </div>
+    <div class="mb-3">
+      <label for="achieved" class="form-label">Achieved</label>
+      <input type="text" class="form-control" id="achieved" name="achieved">
+    </div>
+    <div class="mb-3">
+      <label for="status" class="form-label">Status</label>
+      <input type="text" class="form-control" id="status" name="status">
+    </div>
+    <div class="mb-3">
+      <label for="start_date" class="form-label">Start Date</label>
+      <input type="date" class="form-control" id="start_date" name="start_date">
+    </div>
+    <div class="mb-3">
+      <label for="end_date" class="form-label">End Date</label>
+      <input type="date" class="form-control" id="end_date" name="end_date">
+    </div>
+    <div class="mb-3">
+      <label for="note" class="form-label">Note</label>
+      <textarea class="form-control" id="note" name="note"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Add Initiative</button>
+    <a href="{{ url_for('horizon3.view_objective', objective_id=objective_id) }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

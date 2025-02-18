@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Edit Measurement{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h2>Edit Measurement for Objective {{ objective_id }}</h2>
+  <form method="POST" action="{{ url_for('horizon3.edit_measurement', objective_id=objective_id, measurement_id=measurement.id) }}">
+    <div class="mb-3">
+      <label for="measurement_name" class="form-label">Measurement Name</label>
+      <input type="text" class="form-control" id="measurement_name" name="measurement_name" value="{{ measurement.measurement_name }}" required>
+    </div>
+    <div class="mb-3">
+      <label for="target" class="form-label">Target</label>
+      <input type="text" class="form-control" id="target" name="target" value="{{ measurement.target }}">
+    </div>
+    <div class="mb-3">
+      <label for="achieved" class="form-label">Achieved</label>
+      <input type="text" class="form-control" id="achieved" name="achieved" value="{{ measurement.achieved }}">
+    </div>
+    <div class="mb-3">
+      <label for="status" class="form-label">Status</label>
+      <input type="text" class="form-control" id="status" name="status" value="{{ measurement.status }}">
+    </div>
+    <div class="mb-3">
+      <label for="api_key" class="form-label">API Key</label>
+      <input type="text" class="form-control" id="api_key" name="api_key" value="{{ measurement.api_key }}">
+    </div>
+    <div class="mb-3">
+      <label for="note" class="form-label">Note</label>
+      <textarea class="form-control" id="note" name="note">{{ measurement.note }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Update Measurement</button>
+    <a href="{{ url_for('horizon3.view_objective', objective_id=objective_id) }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

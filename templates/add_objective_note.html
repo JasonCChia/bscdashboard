@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Add Objective Note{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <h2>Add Objective Note for Objective {{ objective_id }}</h2>
+  <form method="POST" action="{{ url_for('horizon3.add_objective_note', objective_id=objective_id) }}">
+    <div class="mb-3">
+      <label for="note" class="form-label">Note</label>
+      <textarea class="form-control" id="note" name="note" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Add Note</button>
+    <a href="{{ url_for('horizon3.view_objective', objective_id=objective_id) }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}
