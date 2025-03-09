@@ -35,20 +35,32 @@
             </div>
             <div class="row">
                 <div class="col-12">
+                    {% set nsf1 = namespace(total=0, count=0) %}
+                    {% for m in measurements if m.objective == "h3finance" %}
+                        {% if m.target > 0 %}
+                            {% set nsf1.total = nsf1.total + (m.achieved / m.target) %}
+                            {% set nsf1.count = nsf1.count + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set avg_ratiof1 = nsf1.total / nsf1.count if nsf1.count > 0 else 0 %}
+                    {% set indicatorf1 = "🟩" if avg_ratiof1 >= 0.8 else "🟨" if avg_ratiof1 >= 0.7 else "🟥" %}
                     <a href="{{ url_for('horizon3.view_objective', objective_id='h3finance') }}"
                         class="text-decoration-none">
-                        <div class="card border-success shadow">
+                        <div class="card border-success shadow position-relative">
                             <div class="card-body">
                                 <h5 class="card-title text-center align-item-center">F1. Expand Market Share in
-                                    Telehealth
-                                    Services</h5>
+                                    Telehealth Services</h5>
                                 <ul>
                                     <li class="text-danger">Puguh</li>
                                     <li>Janto</li>
                                 </ul>
+                                <div class="position-absolute bottom-0 end-0 p-2">
+                                    <span style="font-size: 1.5rem;">{{ indicatorf1 }}</span>
+                                </div>
                             </div>
                         </div>
                     </a>
+
                 </div>
             </div>
         </div>
@@ -59,6 +71,15 @@
             </div>
             <div class="row g-4">
                 <div class="col-md-4">
+                    {% set nsc1 = namespace(total=0, count=0) %}
+                    {% for m in measurements if m.objective == "h3doctors" %}
+                        {% if m.target > 0 %}
+                            {% set nsc1.total = nsc1.total + (m.achieved / m.target) %}
+                            {% set nsc1.count = nsc1.count + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set avg_ratioc1 = nsc1.total / nsc1.count if nsc1.count > 0 else 0 %}
+                    {% set indicatorc1 = "🟩" if avg_ratioc1 >= 0.8 else "🟨" if avg_ratioc1 >= 0.7 else "🟥" %}
                     <a href="{{ url_for('horizon3.view_objective', objective_id='h3doctors') }}"
                         class="text-decoration-none">
                         <div class="card border-warning shadow">
@@ -67,11 +88,23 @@
                                 <p>"I want progression both personally and profesionally"</p>
                                 <li class="text-danger">Umi</li>
                                 <li>dr. Vika | Lily | Janto</li>
+                                <div class="position-absolute bottom-0 end-0 p-2">
+                                    <span style="font-size: 1.5rem;">{{ indicatorc1 }}</span>
+                                </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-4">
+                    {% set nsc2 = namespace(total=0, count=0) %}
+                    {% for m in measurements if m.objective == "h3patients" %}
+                        {% if m.target > 0 %}
+                            {% set nsc2.total = nsc2.total + (m.achieved / m.target) %}
+                            {% set nsc2.count = nsc2.count + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set avg_ratioc2 = nsc2.total / nsc2.count if nsc2.count > 0 else 0 %}
+                    {% set indicatorc2 = "🟩" if avg_ratioc2 >= 0.8 else "🟨" if avg_ratioc2 >= 0.7 else "🟥" %}
                     <a href="{{ url_for('horizon3.view_objective', objective_id='h3patients') }}"
                         class="text-decoration-none">
                         <div class="card border-warning shadow">
@@ -80,11 +113,23 @@
                                 <p>"I want to recover quickly and comfortably without leaving my home"</p>
                                 <li class="text-danger">Amalia</li>
                                 <li>Oki | Wandha</li>
+                                <div class="position-absolute bottom-0 end-0 p-2">
+                                    <span style="font-size: 1.5rem;">{{ indicatorc2 }}</span>
+                                </div>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-4">
+                    {% set nsc3 = namespace(total=0, count=0) %}
+                    {% for m in measurements if m.objective == "h3lab" %}
+                        {% if m.target > 0 %}
+                            {% set nsc3.total = nsc3.total + (m.achieved / m.target) %}
+                            {% set nsc3.count = nsc3.count + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set avg_ratioc3 = nsc3.total / nsc3.count if nsc3.count > 0 else 0 %}
+                    {% set indicatorc3 = "🟩" if avg_ratioc3 >= 0.8 else "🟨" if avg_ratioc3 >= 0.7 else "🟥" %}
                     <a href="{{ url_for('horizon3.view_objective', objective_id='h3lab') }}"
                         class="text-decoration-none">
                         <div class="card border-warning shadow">
@@ -93,6 +138,9 @@
                                 <p>"I want to maximize my business potentially"</p>
                                 <li class="text-danger">Meice</li>
                                 <li>Lubis | Nurul</li>
+                                <div class="position-absolute bottom-0 end-0 p-2">
+                                    <span style="font-size: 1.5rem;">{{ indicatorc3 }}</span>
+                                </div>
                             </div>
                         </div>
                 </div>
@@ -106,6 +154,15 @@
             <div class="row g-4">
                 <!-- Growth Column -->
                 <div class="col-md-4">
+                    {% set nsg1 = namespace(total=0, count=0) %}
+                    {% for m in measurements if m.objective == "h3G1" %}
+                        {% if m.target > 0 %}
+                            {% set nsg1.total = nsg1.total + (m.achieved / m.target) %}
+                            {% set nsg1.count = nsg1.count + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set avg_ratiog1 = nsg1.total / nsg1.count if nsg1.count > 0 else 0 %}
+                    {% set indicatorg1 = "🟩" if avg_ratiog1 >= 0.8 else "🟨" if avg_ratiog1 >= 0.7 else "🟥" %}
                     <div class="mb-4">
                         <h3 class="text-center mb-3 fw-bold text-danger">Growth</h3>
                         <a href="{{ url_for('horizon3.view_objective', objective_id='h3G1') }}"
@@ -117,9 +174,21 @@
                                         Providers</h5>
                                     <li class="text-danger">Janto</li>
                                     <li>Lubis | Uciek</li>
+                                    <div class="position-absolute bottom-0 end-0 p-2">
+                                        <span style="font-size: 1.5rem;">{{ indicatorg1 }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </a>
+                        {% set nsg2 = namespace(total=0, count=0) %}
+                        {% for m in measurements if m.objective == "h3G2" %}
+                            {% if m.target > 0 %}
+                                {% set nsg2.total = nsg2.total + (m.achieved / m.target) %}
+                                {% set nsg2.count = nsg2.count + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% set avg_ratiog2 = nsg2.total / nsg2.count if nsg2.count > 0 else 0 %}
+                        {% set indicatorg2 = "🟩" if avg_ratiog2 >= 0.8 else "🟨" if avg_ratiog2 >= 0.7 else "🟥" %}
                         <a href="{{ url_for('horizon3.view_objective', objective_id='h3G2') }}"
                             class="text-decoration-none">
                             <div class="card border-danger shadow">
@@ -128,6 +197,9 @@
                                     </h5>
                                     <li class="text-danger">Oki</li>
                                     <li>Wandha | Bella</li>
+                                    <div class="position-absolute bottom-0 end-0 p-2">
+                                        <span style="font-size: 1.5rem;">{{ indicatorg2 }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -136,6 +208,15 @@
 
                 <div class="col-md-4">
                     <div class="mb-4">
+                        {% set nsi1 = namespace(total=0, count=0) %}
+                        {% for m in measurements if m.objective == "h3I1" %}
+                            {% if m.target > 0 %}
+                                {% set nsi1.total = nsi1.total + (m.achieved / m.target) %}
+                                {% set nsi1.count = nsi1.count + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% set avg_ratioi1 = nsi1.total / nsi1.count if nsi1.count > 0 else 0 %}
+                        {% set indicatori1 = "🟩" if avg_ratioi1 >= 0.8 else "🟨" if avg_ratioi1 >= 0.7 else "🟥" %}
                         <h3 class="text-center mb-3 fw-bold text-danger">Innovation</h3>
                         <a href="{{ url_for('horizon3.view_objective', objective_id='h3I1') }}"
                             class="text-decoration-none">
@@ -144,9 +225,21 @@
                                     <h5 class="card-title">I1. Establish A Fully Integrated Healthcare Ecosystem</h5>
                                     <li class="text-danger">Andre L.</li>
                                     <li>Jason | Huy | Umi | Sunarti | Amalia</li>
+                                    <div class="position-absolute bottom-0 end-0 p-2">
+                                        <span style="font-size: 1.5rem;">{{ indicatori1 }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </a>
+                        {% set nsi2 = namespace(total=0, count=0) %}
+                        {% for m in measurements if m.objective == "h3I2" %}
+                            {% if m.target > 0 %}
+                                {% set nsi2.total = nsi2.total + (m.achieved / m.target) %}
+                                {% set nsi2.count = nsi2.count + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% set avg_ratioi2 = nsi2.total / nsi2.count if nsi2.count > 0 else 0 %}
+                        {% set indicatori2 = "🟩" if avg_ratioi2 >= 0.8 else "🟨" if avg_ratioi2 >= 0.7 else "🟥" %}
                         <a href="{{ url_for('horizon3.view_objective', objective_id='h3I2') }}"
                             class="text-decoration-none">
                             <div class="card border-danger shadow">
@@ -157,6 +250,9 @@
                                     <p>Implement AI-driven analytics</p>
                                     <li class="text-danger">Hengky</li>
                                     <li>Handris | Dr. Vika | Lily |Evelyn</li>
+                                    <div class="position-absolute bottom-0 end-0 p-2">
+                                        <span style="font-size: 1.5rem;">{{ indicatori2 }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -165,6 +261,15 @@
 
                 <div class="col-md-4">
                     <div class="mb-4">
+                        {% set nsx1 = namespace(total=0, count=0) %}
+                        {% for m in measurements if m.objective == "h3X1" %}
+                            {% if m.target > 0 %}
+                                {% set nsx1.total = nsx1.total + (m.achieved / m.target) %}
+                                {% set nsx1.count = nsx1.count + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% set avg_ratiox1 = nsx1.total / nsx1.count if nsx1.count > 0 else 0 %}
+                        {% set indicatorx1 = "🟩" if avg_ratiox1 >= 0.8 else "🟨" if avg_ratiox1 >= 0.7 else "🟥" %}
                         <h3 class="text-center mb-3 fw-bold text-danger">Excellence</h3>
                         <a href="{{ url_for('horizon3.view_objective', objective_id='h3X1') }}"
                             class="text-decoration-none">
@@ -175,9 +280,21 @@
                                     </h5>
                                     <li class="text-danger">Huy</li>
                                     <li>Jason | Martias | Novi</li>
+                                    <div class="position-absolute bottom-0 end-0 p-2">
+                                        <span style="font-size: 1.5rem;">{{ indicatorx1 }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </a>
+                        {% set nsx2 = namespace(total=0, count=0) %}
+                        {% for m in measurements if m.objective == "h3X2" %}
+                            {% if m.target > 0 %}
+                                {% set nsx2.total = nsx2.total + (m.achieved / m.target) %}
+                                {% set nsx2.count = nsx2.count + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% set avg_ratiox2 = nsx2.total / nsx2.count if nsx2.count > 0 else 0 %}
+                        {% set indicatorx2 = "🟩" if avg_ratiox2 >= 0.8 else "🟨" if avg_ratiox2 >= 0.7 else "🟥" %}
                         <a href="{{ url_for('horizon3.view_objective', objective_id='h3X2') }}"
                             class="text-decoration-none">
                             <div class="card border-danger shadow">
@@ -186,6 +303,9 @@
                                         Efficiency</h5>
                                     <li class="text-danger">Evelyn</li>
                                     <li>Sheren</li>
+                                    <div class="position-absolute bottom-0 end-0 p-2">
+                                        <span style="font-size: 1.5rem;">{{ indicatorx2 }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -200,6 +320,15 @@
             </div>
             <div class="row g-4">
                 <div class="col-md-4">
+                    {% set nse1 = namespace(total=0, count=0) %}
+                    {% for m in measurements if m.objective == "h3E1" %}
+                        {% if m.target > 0 %}
+                            {% set nse1.total = nse1.total + (m.achieved / m.target) %}
+                            {% set nse1.count = nse1.count + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% set avg_ratioe1 = nse1.total / nse1.count if nse1.count > 0 else 0 %}
+                    {% set indicatore1 = "🟩" if avg_ratioe1 >= 0.8 else "🟨" if avg_ratioe1 >= 0.7 else "🟥" %}
                     <a href="{{ url_for('horizon3.view_objective', objective_id='h3E1') }}"
                         class="text-decoration-none">
                         <div class="card border-primary shadow">
@@ -207,6 +336,9 @@
                                 <h5 class="card-title">E1. Build a highly complement & tech-savvy workplace</h5>
                                 <li class="text-danger">Meyta</li>
                                 <li>Luppi | Meice</li>
+                                <div class="position-absolute bottom-0 end-0 p-2">
+                                    <span style="font-size: 1.5rem;">{{ indicatore1 }}</span>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -214,12 +346,23 @@
                 <div class="col-md-4">
                     <a href="{{ url_for('horizon3.view_objective', objective_id='h3E2') }}"
                         class="text-decoration-none">
-
+                        {% set nse2 = namespace(total=0, count=0) %}
+                        {% for m in measurements if m.objective == "h3E2" %}
+                            {% if m.target > 0 %}
+                                {% set nse2.total = nse2.total + (m.achieved / m.target) %}
+                                {% set nse2.count = nse2.count + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% set avg_ratioe2 = nse2.total / nse2.count if nse2.count > 0 else 0 %}
+                        {% set indicatore2 = "🟩" if avg_ratioe2 >= 0.8 else "🟨" if avg_ratioe2 >= 0.7 else "🟥" %}
                         <div class="card border-primary shadow">
                             <div class="card-body">
                                 <h5 class="card-title">Foster a Data-Driven Culture for Decision Making</h5>
                                 <li class="text-danger">Huy</li>
                                 <li>Meyta | Nurul | Luppi</li>
+                                <div class="position-absolute bottom-0 end-0 p-2">
+                                    <span style="font-size: 1.5rem;">{{ indicatore2 }}</span>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -227,13 +370,24 @@
                 <div class="col-md-4">
                     <a href="{{ url_for('horizon3.view_objective', objective_id='h3E3') }}"
                         class="text-decoration-none">
-
+                        {% set nse3 = namespace(total=0, count=0) %}
+                        {% for m in measurements if m.objective == "h3E3" %}
+                            {% if m.target > 0 %}
+                                {% set nse3.total = nse3.total + (m.achieved / m.target) %}
+                                {% set nse3.count = nse3.count + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% set avg_ratioe3 = nse3.total / nse3.count if nse3.count > 0 else 0 %}
+                        {% set indicatore3 = "🟩" if avg_ratioe3 >= 0.8 else "🟨" if avg_ratioe3 >= 0.7 else "🟥" %}
                         <div class="card border-primary shadow">
                             <div class="card-body">
                                 <h5 class="card-title">E3. Generate Value through Innovative Technologycal
                                     Application/create Value through a Culture of Innovation</h5>
                                 <li class="text-danger">Martias</li>
                                 <li>Sheren</li>
+                                <div class="position-absolute bottom-0 end-0 p-2">
+                                    <span style="font-size: 1.5rem;">{{ indicatore3 }}</span>
+                                </div>
                             </div>
                         </div>
                     </a>

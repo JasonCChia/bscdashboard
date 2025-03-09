@@ -19,16 +19,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    {% if session['role'] == 'admin' %}
-                        {% if 'user_id' in session %}
-                        <!-- Links for logged-in users -->
+                    {% if session['role'] == 'admin' and 'user_id' in session %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('admin.admin_dashboard') }}">Admin dashboard</a>
+                            <a class="nav-link" href="{{ url_for('admin.admin_dashboard') }}">Admin Dashboard</a>
                         </li>
-                        {% endif %}
                     {% endif %}
                 </ul>
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav ms-auto">
                     {% if session['role'] == 'user' %}
                         {% if session['horizon'] == 1 %}
                             <li class="nav-item"><a class="nav-link" href="{{ url_for('main.view_horizon', horizon_id=1) }}">Horizon 1</a></li>
@@ -42,7 +39,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.view_horizon', horizon_id=2) }}">Horizon 2</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.view_horizon', horizon_id=3) }}">Horizon 3</a></li>
                     {% endif %}
-                    <li class="nav-item"></li><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
                 </ul>
             </div>
         </div>

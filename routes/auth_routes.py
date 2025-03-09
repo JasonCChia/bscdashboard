@@ -23,7 +23,7 @@ def register():
             return redirect(url_for('auth.register'))
 
         hashed_password = hash_password(password)
-        role = "user"
+        role = ""
 
         try:
             User.create(name, email, hashed_password, role, horizon)
@@ -34,7 +34,7 @@ def register():
                 flash('Email already exists!', 'error')
             else:
                 flash(f'Error: {err}', 'error')
-    
+
     return render_template('register.html')
 
 @auth_bp.route('/login', methods=['GET', 'POST'])

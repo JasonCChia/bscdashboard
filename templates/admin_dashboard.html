@@ -8,18 +8,6 @@
         <a href="{{ url_for('admin.create_user') }}" class="btn btn-primary">Create New User</a>
     </div>
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
     <!-- User Table -->
     <div class="table-responsive">
         <table class="table table-bordered table-hover shadow-sm">
@@ -29,6 +17,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Horizon</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -39,6 +28,7 @@
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>
+                    <td>{{ user.horizon }}</td>
                     <td>
                         <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form method="POST" action="{{ url_for('admin.delete_user', user_id=user.id) }}" class="d-inline">

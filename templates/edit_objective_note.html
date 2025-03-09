@@ -5,14 +5,42 @@
 <div class="container my-4">
   <h2>Edit Objective Note for Objective {{ objective_id }}</h2>
   <form method="POST">
-    <div class="form-group">
-      <label for="note">Note:</label>
-      <textarea name="note" id="note" class="form-control">{{ note_content }}</textarea>
-    </div>
+        <!-- Existing Note Field -->
+      <div class="form-group">
+          <label for="note">Note</label>
+          <textarea class="form-control" id="note" name="note">{{ objective_note.note }}</textarea>
+      </div>
+      
+      <!-- New Fields -->
+      <div class="form-group">
+          <label for="issues">Issues</label>
+          <textarea type="text" class="form-control" id="note" name="issues" >{{ objective_note.issues }}</textarea>
+      </div>
+      
+      <div class="form-group">
+          <label for="implication">Implication</label>
+          <textarea type="text" class="form-control" id="note" name="implication" >{{ objective_note.implication }}</textarea>
+      </div>
+      
+      <div class="form-group">
+          <label for="action">Action</label>
+          <textarea type="text" class="form-control" id="note" name="action" >{{ objective_note.action }}</textarea>
+      </div>
+      
+      <div class="form-group">
+          <label for="accountabilities">Accountabilities</label>
+          <textarea type="text" class="form-control" id="note" name="accountabilities" >{{ objective_note.accountabilities }}</textarea>
+      </div>
     <button type="submit" class="btn btn-primary">Save</button>
     <!-- Cancel button that passes the objective_id back to the view -->
     <a href="{{ url_for('horizon3.view_objective', objective_id=objective_id) }}" class="btn btn-secondary">Cancel</a>
   </form>
   
 </div>
+<style>
+  #note {
+    width: 100%;  /* Full width */
+    height: 100px; /* Adjust height */
+  }
+</style>
 {% endblock %}

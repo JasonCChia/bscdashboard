@@ -1,99 +1,178 @@
 {% extends "base.html" %}
-{% block title %}Horizon 3 Finance Objective{% endblock %}
+{% block title %}Horizon 3 I1 Objective{% endblock %}
 
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Objective {{ objective_id }}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
   <style>
-    .action-btn { margin-right: 5px; }
-    form { display: inline; }
+    .action-btn {
+      margin-right: 5px;
+    }
+
+    form {
+      display: inline;
+    }
   </style>
 </head>
+
 <body>
+  {% set ns = namespace(total=0, count=0) %}
+  {% for m in measurements if m.objective == "h3I1" %}
+      {% if m.target > 0 %}
+          {% set ns.total = ns.total + (m.achieved / m.target) %}
+          {% set ns.count = ns.count + 1 %}
+      {% endif %}
+  {% endfor %}
+  {% set avg_ratio = ns.total / ns.count if ns.count > 0 else 0 %}
+  {% set indicator = "🟩" if avg_ratio >= 0.8 else "🟨" if avg_ratio >= 0.7 else "🟥" %}
+  
   <div class="container mt-4">
-    <h1>Objective {{ objective_id }}</h1>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <h1>Objective {{ objective_id }}</h1>
+      <span style="font-size: 1.5rem;">{{ indicator }}</span>
+    </div>
     <hr>
+
 
     <div class="mb-4">
       <a href="{{ url_for('horizon3.add_measurement') }}" class="btn btn-primary">Add Measurement</a>
       <a href="{{ url_for('horizon3.add_initiative') }}" class="btn btn-primary">Add Initiative</a>
       <a href="{{ url_for('horizon3.add_objective_note') }}" class="btn btn-primary">Add Objective Note</a>
+
     </div>
 
-    <div class="row">
-      <div class="col-md-9">
+    <div class="row d-flex" style="display: flex; align-items: center; gap: 80px;">
+      <div class="col-md-6">
         <h2>Measurements</h2>
+        <!-- <iframe title="Dashboard pharmanet 2 terakhir" width="600" height="300"
+          src="https://app.powerbi.com/reportEmbed?reportId=71500dc3-ef58-453b-8d20-c5a300309acf&autoAuth=true&ctid=c103f980-87c3-44f8-9cb6-64707d42891f"
+          frameborder="0" allowFullScreen="true"></iframe>  -->
+        <!-- <img width="600" height="300"
+          src="https://www.microsoft.com/en-us/microsoft-365/blog/wp-content/uploads/sites/2/2012/06/Excel-charts-11.png"> -->
         {% if measurements %}
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
+              <th>Measurement</th>
               <th>Target</th>
               <th>Achieved</th>
-              <th>Status</th>
-              <th>API Key</th>
+              <th>Progress</th>
               <th>Note</th>
+              <th>Status</th>
+              {% if session['role'] == 'admin' %}
               <th>Actions</th>
+              {% endif %}
             </tr>
           </thead>
           <tbody>
             {% for measurement in measurements %}
+            {% set nss = measurement.achieved / measurement.target if measurement.target else 0 | round(2) %}
+            {% set status = "🟩" if nss >= 0.8 else "🟨" if nss >= 0.7 else "🟥" %}
             <tr>
               <td>{{ measurement.id }}</td>
               <td>{{ measurement.measurement_name }}</td>
               <td>{{ measurement.target }}</td>
               <td>{{ measurement.achieved }}</td>
-              <td>{{ measurement.status }}</td>
-              <td>{{ measurement.api_key }}</td>
+              <td>{{ measurement.achieved / measurement.target * 100 if measurement.target else 0 | round(2) }}%</td>
               <td>{{ measurement.note }}</td>
+              <td> {{ status }}</td>
+              {% if session['role'] == 'admin' %}
               <td>
-                <a href="{{ url_for('horizon3.edit_measurement', objective_id=objective_id, measurement_id=measurement.id) }}" class="btn btn-sm btn-warning action-btn">Edit</a>
-                <form action="{{ url_for('horizon3.delete_measurement', objective_id=objective_id, measurement_id=measurement.id) }}" method="POST">
-                  <button type="submit" class="btn btn-sm btn-danger action-btn" onclick="return confirm('Are you sure you want to delete this measurement?')">Delete</button>
+                <a href="{{ url_for('horizon3.edit_measurement', objective_id=objective_id, measurement_id=measurement.id) }}"
+                  class="btn btn-sm btn-warning action-btn">Edit</a>
+                <form
+                  action="{{ url_for('horizon3.delete_measurement', objective_id=objective_id, measurement_id=measurement.id) }}"
+                  method="POST">
+                  <button type="submit" class="btn btn-sm btn-danger action-btn"
+                    onclick="return confirm('Are you sure you want to delete this measurement?')">Delete</button>
                 </form>
               </td>
+              {% endif %}
             </tr>
             {% endfor %}
           </tbody>
         </table>
         {% else %}
-          <p>No measurements found.</p>
+        <p>No measurements found.</p>
         {% endif %}
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-5">
         <h2>Objective Notes</h2>
         {% if objective_notes %}
-        <table class="table table-bordered table-striped">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Note</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+
             {% for note in objective_notes %}
-            <tr>
-              <td>{{ note.id }}</td>
-              <td>{{ note.note }}</td>
-              <td>
-                <a href="{{ url_for('horizon3.edit_objective_note', objective_id=objective_id, note_id=note.id) }}" class="btn btn-sm btn-warning action-btn">Edit</a>
-                <form action="{{ url_for('horizon3.delete_objective_note', objective_id=objective_id, note_id=note.id) }}" method="POST">
-                  <button type="submit" class="btn btn-sm btn-danger action-btn" onclick="return confirm('Are you sure you want to delete this objective note?')">Delete</button>
-                </form>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
+            <div class="card mb-4 shadow">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Note ID: {{ note.id }}</span>
+                <div>
+                  <a href="{{ url_for('horizon3.edit_objective_note', objective_id=objective_id, note_id=note.id) }}"
+                     class="btn btn-sm btn-warning">Edit</a>
+                  {% if session['role'] == 'admin' %}
+                  <form action="{{ url_for('horizon3.delete_objective_note', objective_id=objective_id, note_id=note.id) }}"
+                        method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Are you sure you want to delete this objective note?')">
+                      Delete
+                    </button>
+                  </form>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="card-body">
+            
+                <!-- Note Card -->
+                <h3 class="text-center mb-3 fw-bold text-warning">Note</h3>
+                <div class="card border-warning shadow mb-3">
+                  <div class="card-body">
+                    <p class="card-text" style="white-space: pre-wrap;">{{ note.note }}</p>
+                  </div>
+                </div>
+            
+                <!-- Issues Card -->
+                <h3 class="text-center mb-3 fw-bold text-danger">Issues</h3>
+                <div class="card border-danger shadow mb-3">
+                  <div class="card-body">
+                    <p class="card-text" style="white-space: pre-wrap;">{{ note.issues }}</p>
+                  </div>
+                </div>
+            
+                <!-- Implication Card -->
+                <h3 class="text-center mb-3 fw-bold text-danger">Implication</h3>
+                <div class="card border-danger shadow mb-3">
+                  <div class="card-body">
+                    <p class="card-text" style="white-space: pre-wrap;">{{ note.implication }}</p>
+                  </div>
+                </div>
+            
+                <!-- Action Card -->
+                <h3 class="text-center mb-3 fw-bold text-success">Action</h3>
+                <div class="card border-success shadow mb-3">
+                  <div class="card-body">
+                    <p class="card-text" style="white-space: pre-wrap;">{{ note.action }}</p>
+                  </div>
+                </div>
+            
+                <!-- Accountabilities Card -->
+                <h3 class="text-center mb-3 fw-bold text-success">Accountabilities</h3>
+                <div class="card border-success shadow mb-3">
+                  <div class="card-body">
+                    <p class="card-text" style="white-space: pre-wrap;">{{ note.accountabilities }}</p>
+                  </div>
+                </div>
+            
+              </div>
+            </div>
+            {% endfor %}            
         </table>
         {% else %}
-          <p>No objective notes found.</p>
+        <p>No objective notes found.</p>
         {% endif %}
       </div>
     </div>
@@ -126,9 +205,13 @@
               <td>{{ initiative.start_date }} - {{ initiative.end_date }}</td>
               <td>{{ initiative.note }}</td>
               <td>
-                <a href="{{ url_for('horizon3.edit_initiative', objective_id=objective_id, initiative_id=initiative.id) }}" class="btn btn-sm btn-warning action-btn">Edit</a>
-                <form action="{{ url_for('horizon3.delete_initiative', objective_id=objective_id, initiative_id=initiative.id) }}" method="POST">
-                  <button type="submit" class="btn btn-sm btn-danger action-btn" onclick="return confirm('Are you sure you want to delete this initiative?')">Delete</button>
+                <a href="{{ url_for('horizon3.edit_initiative', objective_id=objective_id, initiative_id=initiative.id) }}"
+                  class="btn btn-sm btn-warning action-btn">Edit</a>
+                <form
+                  action="{{ url_for('horizon3.delete_initiative', objective_id=objective_id, initiative_id=initiative.id) }}"
+                  method="POST">
+                  <button type="submit" class="btn btn-sm btn-danger action-btn"
+                    onclick="return confirm('Are you sure you want to delete this initiative?')">Delete</button>
                 </form>
               </td>
             </tr>
@@ -136,7 +219,7 @@
           </tbody>
         </table>
         {% else %}
-          <p>No initiatives found.</p>
+        <p>No initiatives found.</p>
         {% endif %}
       </div>
     </div>
@@ -144,5 +227,6 @@
 
   <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body>
+
 </html>
 {% endblock %}

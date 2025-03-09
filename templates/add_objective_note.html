@@ -3,14 +3,60 @@
 
 {% block content %}
 <div class="container my-4">
-  <h2>Add Objective Note for Objective {{ objective_id }}</h2>
-  <form method="POST" action="{{ url_for('horizon3.add_objective_note', objective_id=objective_id) }}">
-    <div class="mb-3">
-      <label for="note" class="form-label">Note</label>
-      <textarea class="form-control" id="note" name="note" rows="4" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Add Note</button>
-    <a href="{{ url_for('horizon3.view_objective', objective_id=objective_id) }}" class="btn btn-secondary">Cancel</a>
-  </form>
+    <h2>Add Objective Note for Objective {{ objective_id }}</h2>
+    <form method="POST" action="{{ url_for('horizon3.add_objective_note', objective_id=objective_id) }}">
+        <!-- Note Field -->
+        <div class="form-group">
+            <label for="note">Note</label>
+            <textarea class="form-control" id="note" name="note"></textarea>
+        </div>
+
+        <!-- Issues Field -->
+        <div class="form-group">
+            <label for="issues">Issues</label>
+            <textarea type="text" class="form-control" id="issues" name="issues"></textarea>
+        </div>
+
+        <!-- Implication Field -->
+        <div class="form-group">
+            <label for="implication">Implication</label>
+            <textarea type="text" class="form-control" id="implication" name="implication"></textarea>
+        </div>
+
+        <!-- Action Field -->
+        <div class="form-group">
+            <label for="action">Action</label>
+            <textarea type="text" class="form-control" id="action" name="action"></textarea>
+        </div>
+
+        <!-- Accountabilities Field -->
+        <div class="form-group">
+            <label for="accountabilities">Accountabilities</label>
+            <textarea type="text" class="form-control" id="accountabilities" name="accountabilities"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success">Add Note</button>
+        <a href="{{ url_for('horizon3.view_objective', objective_id=objective_id) }}"
+            class="btn btn-secondary">Cancel</a>
+    </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var noteTextarea = document.getElementById('note');
+        noteTextarea.addEventListener('keydown', function (e) {
+            // If Shift+Enter is pressed, prevent the form from submitting
+            if (e.key === 'Enter' && e.shiftKey) {
+                e.preventDefault();
+                // Insert a newline at the current cursor position
+                var start = this.selectionStart;
+                var end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + "\n" + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 1;
+            }
+        });
+    });
+</script>
 {% endblock %}

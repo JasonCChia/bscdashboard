@@ -5,6 +5,12 @@
 {% block content %}
 <div class="container text-center mt-5">
     <!-- Hero Section -->
+    {% if session.get('role') != 'admin' %}
+        {% if session.get('role') != 'user' %}
+            <h1 class="alert-danger danger">Please contact admin</h1>
+        {% endif %}
+    {% endif %}
+
     <div class="jumbotron p-5 bg-light shadow rounded">
         <h1 class="display-5">Welcome to Balanced Scorecard System</h1>
         <p class="lead">Track and manage performance effectively with our strategic tools.</p>

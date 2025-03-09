@@ -3,6 +3,24 @@ from database import create_connection  # your create_connection() function
 
 horizon1_bp = Blueprint('horizon1', __name__)
 
+def log_activity(table_name, action, record_id, user_id):
+    """Log user activity to the log_activity table."""
+    conn = create_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+            INSERT INTO log_activity 
+            (table_name, action, record_id, user_id)
+            VALUES (%s, %s, %s, %s)
+        """, (table_name, action, record_id, user_id))
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        print(f"Error logging activity: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+
 def get_objective_data(objective_id):
     """Fetch initiatives, measurements, and objective notes for the given objective."""
     conn = create_connection()
@@ -189,23 +207,24 @@ def add_measurement():
         measurement_name = request.form.get('measurement_name')
         target = request.form.get('target')
         achieved = request.form.get('achieved')
-        status = request.form.get('status')
-        api_key = request.form.get('api_key')
-        note = request.form.get('note')
+        note = request.form.get('note')  # Will be used for objective_note
         created_by = session.get('user_id')
 
         conn = create_connection()
         cursor = conn.cursor()
+        
+        # Insert into measurement (without note)
         cursor.execute("""
             INSERT INTO measurement 
-            (measurement_name, objective, target, achieved, status, api_key, note, created_by)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """, (measurement_name, objective_id, target, achieved, status, api_key, note, created_by))
+            (measurement_name, objective, target, achieved, created_by)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (measurement_name, objective_id, target, achieved, created_by))
+        
         conn.commit()
         cursor.close()
         conn.close()
 
-        flash('Measurement added successfully!', 'success')
+        flash('Measurement and linked note added successfully!', 'success')
         data = get_objective_data(objective_id)
         return render_template(f'objective_{objective_id}.html',
                                objective_id=objective_id,
@@ -226,16 +245,13 @@ def edit_measurement(measurement_id):
         measurement_name = request.form.get('measurement_name')
         target = request.form.get('target')
         achieved = request.form.get('achieved')
-        status = request.form.get('status')
-        api_key = request.form.get('api_key')
         note = request.form.get('note')
         updated_by = session.get('user_id')
         cursor.execute("""
             UPDATE measurement 
-            SET measurement_name=%s, target=%s, achieved=%s, status=%s,
-                api_key=%s, note=%s, updated_by=%s
+            SET measurement_name=%s, target=%s, achieved=%s,note=%s, updated_by=%s
             WHERE id=%s
-        """, (measurement_name, target, achieved, status, api_key, note, updated_by, measurement_id))
+        """, (measurement_name, target, achieved, note, updated_by, measurement_id))
         conn.commit()
         cursor.close()
         conn.close()
@@ -261,16 +277,20 @@ def delete_measurement(measurement_id):
     objective_id = session.get('current_objective_id')
     conn = create_connection()
     cursor = conn.cursor()
+        
+    # Now, delete the measurement record.
     cursor.execute("DELETE FROM measurement WHERE id = %s", (measurement_id,))
+    
     conn.commit()
     cursor.close()
     conn.close()
 
-    flash('Measurement deleted successfully!', 'success')
+    flash('Measurement and its linked note deleted successfully!', 'success')
     data = get_objective_data(objective_id)
     return render_template(f'objective_{objective_id}.html',
                            objective_id=objective_id,
                            **data)
+
 
 # ================================
 # CRUD for Objective Note Table
@@ -288,15 +308,19 @@ def add_objective_note():
 
     if request.method == 'POST':
         note = request.form.get('note')
+        issues = request.form.get('issues')
+        implication = request.form.get('implication')
+        action = request.form.get('action')
+        accountabilities = request.form.get('accountabilities')
         created_by = session.get('user_id')
 
         conn = create_connection()
         cursor = conn.cursor()
         cursor.execute("""
             INSERT INTO objective_note 
-            (objective, note, created_by)
-            VALUES (%s, %s, %s)
-        """, (objective_id, note, created_by))
+            (objective, note, issues, implication, action, accountabilities, created_by)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (objective_id, note, issues, implication, action, accountabilities, created_by))
         conn.commit()
         cursor.close()
         conn.close()
@@ -307,6 +331,7 @@ def add_objective_note():
                                objective_id=objective_id,
                                **data)
     return render_template('add_objective_note.html', objective_id=objective_id)
+
 
 @horizon1_bp.route('/horizon/1/edit_objective_note/<int:note_id>', methods=['GET', 'POST'])
 def edit_objective_note(note_id):
@@ -319,9 +344,19 @@ def edit_objective_note(note_id):
     cursor = conn.cursor(dictionary=True)
 
     if request.method == 'POST':
-        # Retrieve the note value from the form using a different variable name
-        note_value = request.form.get('note')
-        cursor.execute("UPDATE objective_note SET note = %s WHERE id = %s", (note_value, note_id))
+        # Retrieve all form fields
+        issues = request.form.get('issues')
+        implication = request.form.get('implication')
+        action = request.form.get('action')
+        accountabilities = request.form.get('accountabilities')
+        note = request.form.get('note')
+
+        cursor.execute("""
+            UPDATE objective_note 
+            SET issues = %s, implication = %s, action = %s, 
+                accountabilities = %s, note = %s 
+            WHERE id = %s
+        """, (issues, implication, action, accountabilities, note, note_id))
         conn.commit()
         cursor.close()
         conn.close()
@@ -332,17 +367,14 @@ def edit_objective_note(note_id):
                                objective_id=objective_id,
                                **data)
 
-    # GET: fetch the note data from the database.
+    # GET: Fetch the note data
     cursor.execute("SELECT * FROM objective_note WHERE id = %s", (note_id,))
     objective_note = cursor.fetchone()
     cursor.close()
     conn.close()
 
-    # Use 'note_content' instead of 'note' for the note text.
-    note_content = objective_note.get('note') if objective_note else ''
     return render_template('edit_objective_note.html',
                            objective_note=objective_note,
-                           note_content=note_content,
                            objective_id=objective_id)
 
 
